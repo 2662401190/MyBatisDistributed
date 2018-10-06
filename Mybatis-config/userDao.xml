@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.MyBatis.dao.UserDao">
+
+    <!--查询-->
+    <select id="getUserID" resultType="sd">
+        select * from t_user where id = #{id}
+    </select>
+
+    <!--增加  parameterType指定参数类型 可以省略
+    MyBatis支持自增主键 ，自增主键获取  利用statement.getGenreatdKeys()
+        useGeneratedKeys="true"    获取主键自增值策略
+        keyProperty="" 指定我们获取的值交给谁 -->
+    <!--Oracle 数据库不支持自增：用序列模拟自增-->
+    <insert id="addUser"  parameterType="sd" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user(name,sex,age) value (#{name},#{sex},#{age})
+    </insert>
+
+<!--删除-->
+    <update id="update" >
+        update  t_user
+         set name=#{name} ,sex=#{sex},age=#{age}
+          where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete">
+        delete from t_user where id=#{id}
+    </delete>
+
+    <!--多条件查询 ：传入多个参数-->
+    <select id="cxs" resultType="com.MyBatis.Entity.User">
+        select * from t_user where id = #{sd} and name=#{qw}
+    </select>
+
+    <!--根据map查询-->
+    <select id="getmap" resultType="sd">
+        select * from t_user where id=#{id} and name =#{name}
+    </select>
+    <!--返回一个map-->
+    <select id="returnMap" resultType="map">
+        select * from t_user  where id=#{id}
+    </select>
+
+    <!--返回Map 并查询  模糊查询-->
+    <select id="getMapParam" resultType="sd" >
+        select * from  t_user where name like  #{name}
+    </select>
+
+
+</mapper>
